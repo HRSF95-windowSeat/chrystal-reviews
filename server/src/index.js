@@ -7,13 +7,19 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/", function(req, res, next) {
-  console.log("the request URL is " + req.url);
-  next();
-});
+// app.use("/", function(req, res, next) {
+//   console.log("the request URL is " + req.url);
+//   next();
+// });
 
-app.use('/reviewsBundle.js', express.static(path.join(__dirname + '../../../client/dist/bundle.js')));
-app.use('/reviewsMain.css', express.static(path.join(__dirname + '../../../client/styles/main.css')));
+// app.use('/reviewsBundle.js', express.static(path.join(__dirname + '../../../client/dist/bundle.js')));
+// app.use('/reviewsMain.css', express.static(path.join(__dirname + '../../../client/styles/main.css')));
+
+// app.get('/restaurant/:restaurantId', (req, res) => {
+//   express.static( path.resolve(__dirname, '../../client/index.html') )
+// });
+
+app.use('/restaurant/:restaurantId', express.static( path.resolve(__dirname, '../../client') ));
 
 app.get('/restaurant/:restaurantId/reviews', (req, res) => {
   db.getAllReviews(req.params.restaurantId, (err, results) => {
