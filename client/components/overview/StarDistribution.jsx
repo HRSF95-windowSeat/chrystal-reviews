@@ -14,7 +14,7 @@ const StarDistribution = props => {
   <div className="starDistribution">
     <ul>
       {starPercentage.map((stars, i) => {
-        return (<li className="reviewUpdateParameter">
+        return (<li className="reviewUpdateParameter" key={i}>
           <span className="starValue">{5 - i}</span>
           <div className="starBar">
             <progress value={stars} max="100">50 %</progress>
