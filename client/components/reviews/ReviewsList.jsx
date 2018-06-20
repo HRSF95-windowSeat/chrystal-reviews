@@ -29,7 +29,7 @@ class ReviewsList extends React.Component {
   }
   
   displayAllReviews() {
-    axios.get(`/reviews/restaurant/${this.props.restaurantId}/reviews`)
+    axios.get(`/restaurant/${this.props.restaurantId}/reviews`)
     .then( response => {
       this.setState({
         reviews: response.data,
@@ -42,7 +42,7 @@ class ReviewsList extends React.Component {
   }
   
   chooseSortingFunction(event, callback) {
-    let sorter = event  
+    let sorter = event;
 
     const sortingFunction = (sorter) => {
       let sortFunction;
@@ -117,7 +117,7 @@ class ReviewsList extends React.Component {
           <option value="highest">Highest Rating</option>
           <option value="lowest">Lowest Rating</option>
         </select>
-        {this.state.visibleReviews.map((review) => <ReviewListEntry review={review}/>)}
+        {this.state.visibleReviews.map((review, i) => <ReviewListEntry review={review} key={i} />)}
         <div>
           <button onClick={this.displayPreviousReviews}>Previous</button>
           <button onClick={this.displayNextReviews}>Next</button>
