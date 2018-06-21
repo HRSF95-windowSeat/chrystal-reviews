@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const faker = require('faker');
 
-const filePath = path.resolve(__dirname, './mockData.txt');
+const filePath = path.resolve(__dirname, './mockData.csv');
 
 const start = new Date();
 
@@ -15,7 +15,16 @@ const randomRating = (min, max) => {
 const generateData = () => {
 	let data = '';
 	for ( var i = 0; i < 500000; i+=1 ) {
-		data += `${i},${faker.internet.userName()},${faker.date.between('2017-01-01','2018-06-21')},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${faker.lorem.paragraph()}\n`;
+
+		const padDay = n => ( n < 10 ? `0${n}` : `${n}` );
+		const padMonth = n => ( n + 1 < 10 ? `0${n + 1}` : `${n + 1}` );
+		const date = faker.date.between('2017-01-01','2018-06-21');
+		const YYYY = date.getFullYear();
+		const MM = padMonth(date.getMonth());
+		const DD = padDay(date.getDate());
+		const YYYYMMDD = `${YYYY}-${MM}-${DD}`;
+
+		data += `${i},${faker.internet.userName()},${YYYYMMDD},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${faker.lorem.paragraph()}\n`;
 	}
 	return data;
 }

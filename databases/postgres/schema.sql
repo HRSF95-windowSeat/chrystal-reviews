@@ -87,4 +87,5 @@ INSERT INTO categories (category) VALUES
   ('Sunday Lunch'),
   ('Great Beer')
   ;
-	
+
+\copy reviews (restaurant_id,username,date,overall_rating,food_rating,service_rating,ambiance_rating,value_rating,noise_level,recommended,body) FROM databases/mockData.csv WITH csv;
