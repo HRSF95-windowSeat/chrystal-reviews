@@ -1,7 +1,10 @@
 const port = 8081;
 const bodyParser = require('body-parser');
-const db = require('../../database/index.js');
 const path = require('path');
+
+// const db = require('../../databases/mysql/index');
+const db = require('../../databases/postgres/index');
+
 const express = require('express');
 const app = express();
 

@@ -1,3 +1,5 @@
 node_modules/
 client/dist/bundle.js
-database/config.js
+databases/mockData.txt
+databases/mysql/config.js
+databases/postgres/config.js
