@@ -1,7 +1,10 @@
 const port = 8081;
 const bodyParser = require('body-parser');
-const db = require('../../database/index.js');
 const path = require('path');
+
+// const db = require('../../databases/mysql/index');
+const db = require('../../databases/postgres/index');
+
 const express = require('express');
 const app = express();
 
@@ -25,7 +28,8 @@ app.get('/restaurant/:restaurantId/reviews', (req, res) => {
   db.getAllReviews(req.params.restaurantId, (err, results) => {
     if (err) {res.status(500).send(err)}
     else {
-      res.status(200).send(results);
+      console.log(results)
+      res.status(200).send(results.rows);
     }
   });
 });
