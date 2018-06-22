@@ -12,13 +12,14 @@ const getAllReviews = function(restaurantId, callback) {
 
 	pool.connect((err, client, done) => {
 		if (err) throw err
-		client.query('SELECT * FROM categories', (err, res) => {
+		client.query(`SELECT * FROM reviews WHERE restaurant_id=${restaurantId} LIMIT 1500`, (err, res) => {
 			done();
 
 			if (err) {
 				console.log(err.stack)
 			} else {
-				console.log(res.rows)
+				callback(null, res);
+				// console.log(res.rows)
 			}
 		})
 	})

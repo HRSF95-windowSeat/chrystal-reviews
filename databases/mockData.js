@@ -6,7 +6,9 @@ const filePath = path.resolve(__dirname, './mockData.csv');
 
 const start = new Date();
 
-const randomRating = (min, max) => {
+let restaurantId = 0;
+
+const randomNumber = (min, max) => {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -14,6 +16,7 @@ const randomRating = (min, max) => {
 
 const generateData = () => {
 	let data = '';
+	let numberOfReviews = randomNumber(3, 6);
 	for ( var i = 0; i < 500000; i+=1 ) {
 
 		const padDay = n => ( n < 10 ? `0${n}` : `${n}` );
@@ -24,13 +27,21 @@ const generateData = () => {
 		const DD = padDay(date.getDate());
 		const YYYYMMDD = `${YYYY}-${MM}-${DD}`;
 
-		data += `${i},${faker.internet.userName()},${YYYYMMDD},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${randomRating(1,5)},${faker.lorem.paragraph()}\n`;
+		data += `${restaurantId},${faker.internet.userName()},${YYYYMMDD},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${faker.lorem.paragraph()}\n`;
+
+		numberOfReviews -= 1;
+		if ( numberOfReviews === 0 ) {
+			restaurantId += 1;
+			numberOfReviews = randomNumber(3, 6);
+		}
+
 	}
 	return data;
 }
 
 let dataGenerations = 0;
-while ( dataGenerations < 20 ) {
+// while ( dataGenerations < 30 ) {
+	while ( restaurantId < 10000001 ) {
 	try {
 		fs.appendFileSync( filePath, generateData() );
 		dataGenerations += 1;
@@ -39,5 +50,5 @@ while ( dataGenerations < 20 ) {
 		console.log(`\nNeed ... coffee ...\n`);
 	}
 }
-const end = new Date() - start;
-console.log(`\nFinished in ${end}ms.\n`);
+const end = ((new Date() - start) / 1000) / 60;
+console.log(`\nFinished in ${end} minutes.\n`);

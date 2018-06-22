@@ -28,7 +28,8 @@ app.get('/restaurant/:restaurantId/reviews', (req, res) => {
   db.getAllReviews(req.params.restaurantId, (err, results) => {
     if (err) {res.status(500).send(err)}
     else {
-      res.status(200).send(results);
+      console.log(results)
+      res.status(200).send(results.rows);
     }
   });
 });
