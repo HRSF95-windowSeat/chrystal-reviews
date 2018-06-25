@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const uuid = require('uuid/v4');
 const faker = require('faker');
 
 const filePath = path.resolve(__dirname, './mockData.csv');
@@ -16,7 +17,7 @@ const randomNumber = (min, max) => {
 
 const generateData = () => {
 	let data = '';
-	let numberOfReviews = randomNumber(3, 6);
+	let numberOfReviews = randomNumber(2, 5);
 	for ( var i = 0; i < 500000; i+=1 ) {
 
 		const padDay = n => ( n < 10 ? `0${n}` : `${n}` );
@@ -27,12 +28,12 @@ const generateData = () => {
 		const DD = padDay(date.getDate());
 		const YYYYMMDD = `${YYYY}-${MM}-${DD}`;
 
-		data += `${restaurantId},${faker.internet.userName()},${YYYYMMDD},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${faker.lorem.paragraph()}\n`;
+		data += `${uuid()},${restaurantId},${faker.internet.userName()},${YYYYMMDD},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${randomNumber(1,5)},${faker.lorem.paragraph()}\n`;
 
 		numberOfReviews -= 1;
 		if ( numberOfReviews === 0 ) {
 			restaurantId += 1;
-			numberOfReviews = randomNumber(3, 6);
+			numberOfReviews = randomNumber(2, 5);
 		}
 
 	}

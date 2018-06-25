@@ -24,6 +24,9 @@ app.use(bodyParser.json());
 
 app.use('/restaurant/:restaurantId', express.static( path.resolve(__dirname, '../../client') ));
 
+app.post('/restaurant/:restaurantId/reviews', (req, res) => {
+});
+
 app.get('/restaurant/:restaurantId/reviews', (req, res) => {
   db.getAllReviews(req.params.restaurantId, (err, results) => {
     if (err) {res.status(500).send(err)}
@@ -33,5 +36,12 @@ app.get('/restaurant/:restaurantId/reviews', (req, res) => {
     }
   });
 });
+
+app.put('/restaurant/:restaurantId/reviews', (req, res) => {
+});
+
+app.delete('/restaurant/:restaurantId/reviews', (req, res) => {
+});
+
 
 app.listen(port, () => console.log(`CavaTable is listening on port ${port}`));
