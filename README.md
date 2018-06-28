@@ -1,6 +1,6 @@
 # Cava Reviews Component
 
-> Project description
+> Systems Design Capstone Project @ Hack Reactor
 
 ## Related Projects
 
