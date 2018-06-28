@@ -1,41 +1,49 @@
+require('newrelic');
+
 const port = 8081;
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const redis = require('redis');
+const client = redis.createClient();
+
 // const db = require('../../databases/mysql/index');
-const db = require('../../databases/postgres/index');
+// const db = require('../../databases/postgres/index');
+const db = require('../../databases/cassandra/index');
 
 const express = require('express');
 const app = express();
 
 app.use(bodyParser.json());
 
-// app.use("/", function(req, res, next) {
-//   console.log("the request URL is " + req.url);
-//   next();
-// });
-
-// app.use('/reviewsBundle.js', express.static(path.join(__dirname + '../../../client/dist/bundle.js')));
-// app.use('/reviewsMain.css', express.static(path.join(__dirname + '../../../client/styles/main.css')));
-
-// app.get('/restaurant/:restaurantId', (req, res) => {
-//   express.static( path.resolve(__dirname, '../../client/index.html') )
-// });
-
 app.use('/restaurant/:restaurantId', express.static( path.resolve(__dirname, '../../client') ));
 
 app.post('/restaurant/:restaurantId/reviews', (req, res) => {
 });
 
-app.get('/restaurant/:restaurantId/reviews', (req, res) => {
+const cache = (req, res, next) => {
+  const id = req.params.restaurantId;
+  client.get(id, (err, data) => {
+    if ( err ) {
+      throw err;
+    }
+    if ( data != null ) {
+      res.status(200).send(JSON.parse(data));
+    } else {
+      next();
+    }
+  });
+}
+const queryDatabase = (req, res, next) => {
   db.getAllReviews(req.params.restaurantId, (err, results) => {
     if (err) {res.status(500).send(err)}
     else {
-      console.log(results)
+      client.setex(req.params.restaurantId, 3600, JSON.stringify(results.rows));
       res.status(200).send(results.rows);
     }
   });
-});
+}
+app.get('/restaurant/:restaurantId/reviews', cache, queryDatabase);
 
 app.put('/restaurant/:restaurantId/reviews', (req, res) => {
 });

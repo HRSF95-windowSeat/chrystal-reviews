@@ -3,3 +3,6 @@ client/dist/bundle.js
 databases/mockData.csv
 databases/mysql/config.js
 databases/postgres/config.js
+dump.rdb
+newrelic_agent.log
+newrelic.js

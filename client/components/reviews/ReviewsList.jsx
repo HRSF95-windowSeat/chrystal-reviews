@@ -33,14 +33,14 @@ class ReviewsList extends React.Component {
     .then( response => {
       this.setState({
         reviews: response.data,
-        visibleReviews : response.data.slice(this.start, this.end)
+        visibleReviews : response.data.sort( (a, b) => new Date(b.date) - new Date(a.date)).slice(this.start, this.end)
       });
     })
     .catch( error => {
       console.log(error);
     }) 
   }
-  
+
   chooseSortingFunction(event, callback) {
     let sorter = event;
 
