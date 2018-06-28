@@ -1,4 +1,4 @@
-# Project Name
+# Cava Reviews Component
 
 > Project description
 
