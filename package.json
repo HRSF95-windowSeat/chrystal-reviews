@@ -51,7 +51,6 @@
     "jest": "^23.1.0",
     "mocha": "^5.2.0",
     "newrelic": "^4.2.0",
-    "request": "^2.87.0",
     "uuid": "^3.2.1",
     "webpack": "^4.11.1",
     "webpack-cli": "^2.1.4"
