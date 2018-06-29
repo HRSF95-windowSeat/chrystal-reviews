@@ -1,6 +1,6 @@
 require('newrelic');
 
-const port = process.env.port || 8081;
+const port = process.env.PORT || 8081;
 const bodyParser = require('body-parser');
 const path = require('path');
 
