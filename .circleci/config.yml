@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:8.11.2
+      - image: circleci/cassandra
     steps:
       - checkout
       - run: npm install
