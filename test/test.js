@@ -3,7 +3,7 @@ var chaiHttp = require('chai-http');
 var expect = chai.expect;
 chai.use(chaiHttp);
 
-const port = process.env.PORT || 8081;
+const port = process.env.port || 8081;
 
 describe('CRUD Testing', function(){
 
