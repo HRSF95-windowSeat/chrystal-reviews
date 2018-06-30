@@ -1,6 +1,6 @@
 require('newrelic');
 
-const port = 8081;
+const port = process.env.PORT || 8081;
 const bodyParser = require('body-parser');
 const path = require('path');
 
@@ -19,6 +19,9 @@ app.use(bodyParser.json());
 app.use('/restaurant/:restaurantId', express.static( path.resolve(__dirname, '../../client') ));
 
 app.post('/restaurant/:restaurantId/reviews', (req, res) => {
+  db.postReview(req.body, () => {
+    res.status(200).end();
+  });
 });
 
 const cache = (req, res, next) => {
@@ -35,7 +38,7 @@ const cache = (req, res, next) => {
   });
 }
 const queryDatabase = (req, res, next) => {
-  db.getAllReviews(req.params.restaurantId, (err, results) => {
+  db.getReviews(req.params.restaurantId, (err, results) => {
     if (err) {res.status(500).send(err)}
     else {
       client.setex(req.params.restaurantId, 3600, JSON.stringify(results.rows));
@@ -49,7 +52,13 @@ app.put('/restaurant/:restaurantId/reviews', (req, res) => {
 });
 
 app.delete('/restaurant/:restaurantId/reviews', (req, res) => {
+  db.deleteReview(req.params.restaurantId, (err, results) => {
+    if (err) {res.status(500).send(err)}
+    else {
+      client.del(req.params.restaurantId);
+      res.status(200).send();
+    }
+  });
 });
-
 
 app.listen(port, () => console.log(`CavaTable is listening on port ${port}`));
