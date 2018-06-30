@@ -11,7 +11,7 @@
     "mysql": "mysql -u root < schema.sql",
     "react-dev": "webpack -d --watch",
     "start": "node server/src/index.js",
-    "test": "mocha"
+    "test": "nyc mocha"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -51,6 +51,7 @@
     "jest": "^23.1.0",
     "mocha": "^5.2.0",
     "newrelic": "^4.2.0",
+    "nyc": "^12.0.2",
     "uuid": "^3.2.1",
     "webpack": "^4.11.1",
     "webpack-cli": "^2.1.4"

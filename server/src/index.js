@@ -61,4 +61,8 @@ app.delete('/restaurant/:restaurantId/reviews', (req, res) => {
   });
 });
 
-app.listen(port, () => console.log(`CavaTable is listening on port ${port}`));
+if ( !module.parent ) {
+  const server = app.listen( port, 
+    () => console.log(`CavaTable is listening on port ${port}`));
+}
+module.exports = app;
