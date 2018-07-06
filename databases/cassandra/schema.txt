@@ -1,3 +1,5 @@
+CREATE KEYSPACE cava WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+
 CREATE TABLE cava.reviews ( 
 	id UUID, 
 	restaurant_id INT, 

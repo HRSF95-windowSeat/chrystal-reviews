@@ -1,0 +1,10 @@
+.circleci
+.nyc_output
+node_modules
+npm-debug.log
+artillery
+databases/mysql
+databases/postgres
+databases/mockData.csv
+dump.rdb
+newrelic*.*

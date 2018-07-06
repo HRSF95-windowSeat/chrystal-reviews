@@ -1,11 +1,16 @@
 require('newrelic');
 
+const morgan = require('morgan');
+
 const port = process.env.PORT || 8081;
 const bodyParser = require('body-parser');
 const path = require('path');
 
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient({
+  port: 6379,
+  host: process.env.REDIS_HOST
+});
 
 // const db = require('../../databases/mysql/index');
 // const db = require('../../databases/postgres/index');
@@ -15,6 +20,7 @@ const express = require('express');
 const app = express();
 
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 
 app.use('/restaurant/:restaurantId', express.static( path.resolve(__dirname, '../../client') ));
 
@@ -26,11 +32,13 @@ app.post('/restaurant/:restaurantId/reviews', (req, res) => {
 
 const cache = (req, res, next) => {
   const id = req.params.restaurantId;
+  console.log('Checking Redis...')
   client.get(id, (err, data) => {
     if ( err ) {
       throw err;
     }
     if ( data != null ) {
+      console.log('Got from Redis...')
       res.status(200).send(JSON.parse(data));
     } else {
       next();
@@ -38,10 +46,12 @@ const cache = (req, res, next) => {
   });
 }
 const queryDatabase = (req, res, next) => {
+  console.log('Checking Cassandra...')
   db.getReviews(req.params.restaurantId, (err, results) => {
     if (err) {res.status(500).send(err)}
     else {
       client.setex(req.params.restaurantId, 3600, JSON.stringify(results.rows));
+      console.log('Got from Cassandra...')
       res.status(200).send(results.rows);
     }
   });

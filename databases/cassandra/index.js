@@ -1,6 +1,6 @@
 const cassandra = require('cassandra-driver');
 const client = new cassandra.Client({
-	contactPoints: ['localhost'],
+	contactPoints: [ process.env.DB_HOST || 'localhost' ],
 	keyspace: 'cava'
 });
 

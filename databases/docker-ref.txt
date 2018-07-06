@@ -1,0 +1,5 @@
+docker run -d -p 80:8081 -e DB_HOST=ec2-34-228-25-147.compute-1.amazonaws.com -e REDIS_HOST=ec2-52-90-54-89.compute-1.amazonaws.com mjcampagna/cavareviews:morgan
+
+docker run -d cassandra:3.11.2
+
+docker run -d -p 6379:6379 redis:4.0.10
